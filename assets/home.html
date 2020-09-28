@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campeonato de Futebol</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <header>
+        <div class="row-season">
+            <div>
+                Estamos na <span>1</span>ª temporada!
+            </div>
+        </div>
+        <div class="row-menu">
+            <div class="menu-box">
+                <img src="images/logo.png" alt="Logo" id="logo">
+                <ul>
+                    <li><a href="/">Campeonatos</a></li>
+                    <li><a href="">Lista de Equipes</a></li>
+                    <li><a href="">Estatísticas</a></li>
+                    <li><a href="">Sobre</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-row-title">
+            <h1>Título da página</h1>
+            <hr>
+        </div>
+
+        <div class="main-row-stages">
+            <ul>
+                <li>Pré-libertadores</li>
+                <li class="selected-stage">Fase de Grupos</li>
+                <li>Oitavas de Final</li>
+                <li>Quartas de Final</li>
+                <li>Semi-Final</li>
+                <li>Final</li>
+            </ul>
+        </div>  
+
+        <div class="stage">
+
+            <div id="groups-box">
+                <div class="table-box">
+                    <h2 class="table-group-title">Grupo 1</h2>
+                    <table class="standing-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Classificação</th>
+                                <th>PTS</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>E</th>
+                                <th>D</th>
+                                <th>GP</th>
+                                <th>GC</th>
+                                <th>SG</th>
+                                <th>%</th>
+                                <th>Últimos Jogos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a class="position-green">1º</a></td>
+                                <td> Paradão </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50 </td>
+                                <td> 50%</td>
+                                <td>
+                                    <div class="result-green"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+            <div class="match-block">
+
+                <div class="toggle-match-list">
+                    <img src="images/left-arrow.svg" alt="Anterior" title="Anterior">
+                    <span class="match-label">Rodada<input type="text" name="list-number" id="match-list-number" value="1">de <span id="list-total">38</span></span>
+                    <img src="images/right-arrow.svg" alt="Próximo" title="Próximo">
+                </div>
+
+                <div class="toggle-roundtrip">
+                    <button class="roundtrip-selected">Ida</button>
+                    <button>Volta</button>
+                </div>
+
+                <div class="save-matches">
+                    <button>Salvar</button>
+                </div>
+
+                <div class="match-list" id="list-1">
+
+                    <div class="match">
+                        <div class="match-competitors">
+                            <span>Paradão</span>
+                            <input type="text" class="match-score-input">
+                            <img src="images/close.svg" alt="against">
+                            <input type="text" class="match-score-input">
+                            <span>Moca</span>
+                        </div>
+                        <div class="match-details">
+                            <span>DOM - 16:30</span>
+                        </div>
+                    </div>
+
+                    <div class="match">
+                        <div class="match-competitors">
+                            <span>Jardim Ipê</span>
+                            <input type="text" class="match-score-input">
+                            <img src="images/close.svg" alt="against">
+                            <input type="text" class="match-score-input">
+                            <span>Vila Alvinópolis</span>
+                        </div>
+                        <div class="match-details">
+                            <span>DOM - 16:30</span>
+                        </div>
+                    </div>
+
+                </div>  
+
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

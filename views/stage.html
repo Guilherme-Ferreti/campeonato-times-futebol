@@ -1,0 +1,107 @@
+
+        <div class="stage" id="stage-{$stageNumber}" {if="$stageNumber!=1"} style="display: none;" {/if} >
+
+            {if="$groups!=false"}
+            <div id="groups-box">
+                
+                {loop="$groups"}
+                <div class="table-box">
+
+                    {if="count($groups)>1"}
+                    <h2 class="table-group-title">Grupo {$counter +1}</h2>
+                    {/if}
+
+                    <table class="standing-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Classificação</th>
+                                <th>PTS</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>E</th>
+                                <th>D</th>
+                                <th>GP</th>
+                                <th>GC</th>
+                                <th>SG</th>
+                                <th>%</th>
+                                <th>Últimos Jogos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        {loop="$groups[$counter]"}
+                        <tr>
+                            <td><a class="position-{$value.position}">{$counter +1}º</a></td>
+                            <td> {$value.name} </td>
+                            <td> {$value.points} </td>
+                            <td> {$value.matches} </td>
+                            <td> {$value.wins} </td>
+                            <td> {$value.draws} </td>
+                            <td> {$value.looses} </td>
+                            <td> {$value.GF} </td>
+                            <td> {$value.GA} </td>
+                            <td> {$value.GD} </td>
+                            <td> {$value.nrpercent}% </td>
+                            <td>
+
+                                {loop="$value.lastResults"}
+                                <div class="result-{$value}"></div>
+                                {/loop}
+
+                            </td>
+                        </tr>
+                        {/loop}
+
+                        </tbody>
+                    </table>
+                </div>
+                {/loop}
+
+            </div>
+            {/if}
+            
+            {if="$matches!=false"}
+            <div class="match-block">
+
+                {if="$matches['matchdays']===true"}
+                <div class="toggle-match-list">
+                    <img src="../../assets/images/left-arrow.svg" alt="Anterior" title="Anterior" onclick="toggleMatchList(-1, {$stageNumber})">
+                    <span class="match-label">Rodada<input type="number" min="1" name="list-number" id="match-list-number-{$stageNumber}" value="1" data-currentlist="1">de <span data-totallist="{function="count($matches['matchlist'])"}" id="list-total-{$stageNumber}"> {function="count($matches['matchlist'])"} </span></span>
+                    <img src="../../assets/images/right-arrow.svg" alt="Próximo" title="Próximo" onclick="toggleMatchList(1, {$stageNumber})">
+                </div>
+                {/if}
+
+                <div class="save-matches">
+                    <button class="btn-save-matchlist" onclick="saveMatches('{$matches['saveURL']}')">Salvar</button>
+                    <form style="display: none;" id="hidden-form">
+                        <input type="hidden" name="hidden-save" id="hidden-save">
+                    </form>
+                </div>
+
+                <div style="display: flex;">
+                    {loop="$matches['matchlist']"}
+                        <div class="match-list" id="list-{$stageNumber}-{$counter+1}" {if="$counter!=0 && $groups!=false"} style="display: none;" {/if}>
+
+                        {loop="$matches['matchlist'][$counter]"}
+                            <div class="match" data-id="{$value.id}" data-finished="{$value.isfinished}" data-team1="{$value.idteam1}" data-team2="{$value.idteam2}">
+                                <div class="match-competitors">
+                                    <span>{$value.team1}</span>
+                                    <input type="number" min="0" max="15" class="match-score-input {if="$value.isfinished == 1"}match-score-finished{/if} " name="score-host" id="host-{$value.id}" value="{$value.goals1}">
+                                    <img src="../../assets/images/close.svg" alt="against">
+                                    <input type="number" min="0" max="15" class="match-score-input {if="$value.isfinished == 1"}match-score-finished{/if} " name="score-visitor" id="visitor-{$value.id}" value="{$value.goals2}">
+                                    <span>{$value.team2}</span>
+                                </div>
+                                <div class="match-details">
+                                    <span>{$value.matchtime}</span>
+                                </div>
+                            </div>
+                        {/loop}
+                        </div>  
+                    {/loop}
+                </div>
+                
+
+            </div>
+            {/if}
+
+        </div>

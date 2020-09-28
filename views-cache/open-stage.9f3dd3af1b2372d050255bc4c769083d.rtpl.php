@@ -1,0 +1,2 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?><div class="league-stages" id="stage-<?php echo htmlspecialchars( $nrstage, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-stagename="<?php echo htmlspecialchars( $stagename, ENT_COMPAT, 'UTF-8', FALSE ); ?>" <?php if( $nrstage !== 1 ){ ?> style="display: none;" <?php } ?> >
+    

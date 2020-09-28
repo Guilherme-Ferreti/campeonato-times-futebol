@@ -1,0 +1,7 @@
+        <div class="main-row-stages">
+            <ul>
+                {loop="$stages"}
+                <li id="btn-stage-{$counter+1}" data-stage="stage-{$counter+1}" onclick="toggleStage(this.id)" class=" stage-item {if="$counter==0"} selected-stage {/if} " > {$value} </li>
+                {/loop}
+            </ul>
+        </div> 
