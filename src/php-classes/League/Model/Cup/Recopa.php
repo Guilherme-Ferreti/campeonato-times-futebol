@@ -113,11 +113,113 @@
 
         }
 
+        public function listMatches( $idCup ) 
+        {
+
+            $matches = array();
+
+            $sql = new Sql();
+
+            $results = $sql->select("SELECT a.id, a.stage, a.match, b.id AS idteam1, b.name AS team1, b.rating AS rating1, c.id AS idteam2, c.name AS team2, c.rating AS rating2, a.goals1, a.goals2, a.matchtime, a.isfinished 
+                FROM tb_playoffs a INNER JOIN tb_teams b ON a.team1 = b.id INNER JOIN tb_teams c ON a.team2 = c.id
+                WHERE season = :SEASON AND competition = :LEAGUE", [
+                ":SEASON" => Season::getCurrent(),
+                ":LEAGUE" => (int) $idCup
+            ]);
+
+            if ( count( $results ) > 0  ) {
+
+                $matches1 = array();
+                $matches2 = array();
+    
+                for ( $i = 0; $i < count( $results ) ; $i++) { 
+                    
+                    if ( (int) $results[$i]['match'] === 1 ) {
+    
+                        array_push( $matches1, $results[$i] );
+    
+                    } else {
+    
+                        array_push( $matches2, $results[$i] );
+    
+                    }
+    
+                }
+
+                array_push( $matches, $matches1);
+
+                if ( count( $matches2 ) > 0 )  array_push( $matches, $matches2);
+    
+            }
+
+           return $matches;
+
+        }
+
+        public function save() // Salva os resultados das partidas de Playoffs
+        {
+
+            $matches = $this->getmatchresults();
+
+            $sql = new Sql();
+
+            for ( $i = 0; $i < count( $matches ); $i++ ) {
+
+                $sql->query( "UPDATE tb_playoffs SET goals1 = :GOALS1, goals2 = :GOALS2, isfinished = 1 WHERE id = :IDMATCH", [
+                    ":GOALS1" => (int) $matches[$i]['goals1'],
+                    ":GOALS2" => (int) $matches[$i]['goals2'],
+                    ":IDMATCH" => (int) $matches[$i]['id'],
+                ]);
+
+            }
+
+        }
 
         public function load( $idCup ) 
         {
 
-            
+            $page = new Page([
+                'title' => $this->getRecopaName( $idCup )
+            ]);
+
+            $page->render('stage', [
+                'stageNumber' => 1,
+                'groups' => false,
+                'matches' => [
+                    'matchdays' => false,
+                    'roundtrip' => false,
+                    'matchlist' => $this->listMatches( $idCup ),
+                    'saveURL' => '/recopa/' . $idCup,
+                ]
+            ]);
+
+        }
+
+        public function getRecopaName( $idCup ) 
+        {
+
+            switch ( (int) $idCup ) 
+            {
+                case 7:
+                    return 'Recopa Brasil';
+                break;
+
+                case 10: 
+                    return 'Recopa Internacional';
+                break;
+
+                case 14:
+                    return 'Recopa Argentina';
+                break;
+                    
+                case 17:
+                    return 'Recopa México';
+                break;
+                    
+                case 20:
+                    return 'Estados Unidos';
+                break;
+            }
 
         }
 

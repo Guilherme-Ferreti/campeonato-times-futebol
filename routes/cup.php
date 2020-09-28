@@ -39,8 +39,20 @@
 
         $cup = new Recopa();
 
-        //$cup->load( $idCup );
+        $cup->load( $idCup );
  
+    });
+
+    $app->post('/recopa', function() {
+
+        $cup = new Recopa;
+
+        $cup->setmatchresults( json_decode( $_POST["hidden-save"], true ) );
+
+        $cup->save();
+
+        Response::set(['result' => true]);
+
     });
 
 ?>

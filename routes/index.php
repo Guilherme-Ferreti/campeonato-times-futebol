@@ -22,9 +22,14 @@
 
             $season->create();
 
+            header('Location: /');
+            exit;
+
         } else {
 
-            Response::set("Uma temporada já está em andamento.");
+            header('Location: /');
+            exit;
+            
         }
 
     });
