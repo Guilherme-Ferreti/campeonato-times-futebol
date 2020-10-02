@@ -5,7 +5,7 @@ O projeto é baseado em campeonatos de futebol com times fictícios. Cada time p
 ## **Funcionamento**
 Ao início de cada temporada, todas as partidas dos campeonatos são geradas de forma aleatória, seguindo os critérios de qualificação. Ou seja, times podem ser rebaixados ou promovidos, de acordo com sua posição na liga anterior.
 
-Os **resultados** de alguns campeonatos **definidos pelo usuário**, outros são **simulados automaticamente**.
+Os **resultados** de alguns campeonatos podem ser **definidos pelo usuário**, outros são **simulados automaticamente**.
 
 ## **Instalação**
 Não fiz o projeto pensando em disponibilizá-lo para outros usuários, mas caso você queira testar, aqui estão os passos:
