@@ -271,6 +271,121 @@
             return array_reverse( $matches );
 
         }
+        
+        public static function createMatchesWithResults( $teams = array(), $secondRound = true )
+        {
+
+            // INÍCIO - Cria dois arrays com os times
+
+            shuffle( $teams );
+            $teams1 = array();
+            $teams2 = array();
+
+            $x = count( $teams ) / 2;
+            
+            for ( $i = 0; $i < $x ; $i++) { 
+                
+                array_push( $teams1, $teams[$i] );
+
+                array_push( $teams2, $teams[$i + $x] );
+            } 
+
+            // FIM - Agora os times estão divididos em 2 arrays
+
+            $nrounds = count( $teams ) - 1; // Quantidade de Rodadas com base na quantidade de times (Ex: 20 times = 19 rodadas ---- 10 times = 9 rodadas)
+
+            $allMatches = array(); // Contém todas as rodadas de ida
+            $allMatches2 = array(); // Contém todas as rodadas de volta
+
+            for ( $i = 0; $i < $nrounds; $i++) // Para cada rodada
+            { 
+                $matchday = array(); // Jogos de Ida
+
+                $matchday2 = array(); // Jogos de Volta     
+                
+            // INÍCIO - Cria as partidas
+                for ( $y = 0 ; $y < count( $teams1 ) ; $y++) { 
+
+                    $result = LeagueFunctions::getMatchResultByRating( $teams1[$y]['rating'], $teams2[$y]['rating'] );
+
+                    $match = array(
+                        'team1' => $teams1[$y]['team'],
+                        'team2'=> $teams2[$y]['team'],
+                        'goals1' => $result['goals1'],
+                        'goals2' => $result['goals2']
+                    ); // Partida de Ida
+
+                    array_push( $matchday, $match ); // Põe a partida na rodada
+
+                    if ( $secondRound === true ) {
+
+                        $match2 = array(
+                            'team1' => $teams2[$y]['team'],
+                            'team2'=> $teams1[$y]['team'],
+                            'goals1' => '',
+                            'goals2' => ''
+                        ); // Partida de Volta
+
+                        array_push( $matchday2, $match2 ); // Põe a partida na rodada
+
+                    }
+
+                }
+            // FIM - Agoras, as partidas para a rodada estão criadas
+
+                array_push( $allMatches, $matchday );
+
+                if ( $secondRound === true ) array_push( $allMatches2, $matchday2 );
+   
+                $newTeams1 = array();
+                $newTeams2 = array();
+
+            // INÍCIO - Troca as posições dos times no array 1
+                array_push( $newTeams1, $teams1[0] ); // Time 1 do array é fixo
+                array_push( $newTeams1, $teams2[0] ); // Time 1 do array 2 
+
+                for ($g = 1; $g < count( $teams1 ) - 1 ; $g++) {
+
+                    array_push( $newTeams1, $teams1[$g] );
+                }   
+            // FIM
+
+            // INÍCIO - Troca as posições dos times no array 2
+                for ($g = 1; $g < count( $teams2 ) ; $g++) { 
+                    
+                    array_push( $newTeams2, $teams2[$g] );
+
+                }
+
+                array_push( $newTeams2, end( $teams1 ) );
+            // FIM
+
+                $teams1 = $newTeams1;
+                $teams2 = $newTeams2;
+            }
+
+            if ( $secondRound === true ) {
+
+                for ( $p = 0; $p < count( $allMatches2 ) ; $p++) { 
+                
+                    array_push( $allMatches, $allMatches2[$p] );
+    
+                }
+
+            }
+
+            return $allMatches;
+
+        }
+
+        public static function getMatchResultByRating( $rating1, $rating2 )
+        {
+            var_dump($rating1);
+            var_dump($rating2);
+            exit;
+
+            return null;
+        }
 
     }
 

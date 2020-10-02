@@ -10,6 +10,8 @@
     use \League\Model\Championship\TorneioSaoBernardo;
     use \League\Model\Championship\TorneioSaoPaulo;
 
+    use \League\Model\Championship\CampeonatoArgentina;
+
     /* -------------------------------------- CAMPEONATO BRASILEIRO SÉRIE A -------------------------------------- */
 
     $app->get('/campeonato-brasileiro-serie-a', function() {
@@ -182,4 +184,17 @@
         Response::set([ "result" => true ]);
 
     });
+
+     /* -------------------------------------- CAMPEONATO ARGENTINO -------------------------------------- */
+
+     $app->get('/campeonato-argentina', function() {
+
+        CampeonatoArgentina::create();
+        
+        $league = new CampeonatoArgentina();
+
+        $league->load();
+
+    });
+
 ?>

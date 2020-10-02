@@ -12,7 +12,7 @@ let card = [
     {location: "Internacional", name: "Copa Sul-Americana", imageFile: "trofeu-03.png", color: "card-international", route: ""},
     {location: "Internacional", name: "Recopa - Internacional", imageFile: "recup.png", color: "card-international", route: ""},
     {location: "Internacional", name: "Liga Internacional", imageFile: "trofeu-10.png", color: "card-international", route: ""},
-    {location: "Argentina", name: "Campeonato Argentino", imageFile: "main-cup.png", color: "card-argentina", route: ""},
+    {location: "Argentina", name: "Campeonato Argentino", imageFile: "main-cup.png", color: "card-argentina", route: "/campeonato-argentina"},
     {location: "Argentina", name: "Copa da Argentina", imageFile: "eliminatory-cup.png", color: "card-argentina", route: ""},
     {location: "Argentina", name: "Recopa - Argentina", imageFile: "recup.png", color: "card-argentina", route: ""},
     {location: "México", name: "Campeonato Mexicano", imageFile: "main-cup.png", color: "card-mexico", route: ""},

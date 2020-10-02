@@ -9,6 +9,7 @@ function simulateResult(teamA, ratingA, teamB, ratingB) {
     let chances = [];
 
     let scoreboardDraw = [];
+
     scoreboardDraw.push(
         "0x0", "0x0", "0x0", "0x0", 
         "1x1", "1x1", "1x1", "1x1", 
@@ -18,6 +19,7 @@ function simulateResult(teamA, ratingA, teamB, ratingB) {
     );
 
     let scoreboardWin = [];
+
     scoreboardWin.push(
         "1x0", "1x0", "1x0", "1x0",
         "2x0", "2x0", "2x0",
@@ -57,7 +59,9 @@ function simulateResult(teamA, ratingA, teamB, ratingB) {
     let goals = finalScoreboard.split("x");
 
     if (chances[result] === teamB) goals.reverse();
-console.log(chances[result]);
+
+    console.log(chances[result]);
+
     return goals;
 }
 
