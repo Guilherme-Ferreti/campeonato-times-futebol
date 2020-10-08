@@ -189,8 +189,6 @@
 
      $app->get('/campeonato-argentina', function() {
 
-        CampeonatoArgentina::create();
-        
         $league = new CampeonatoArgentina();
 
         $league->load();

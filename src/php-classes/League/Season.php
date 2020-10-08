@@ -15,6 +15,9 @@
     use \League\Model\Cup\CopaDoBrasil;
     use \League\Model\Cup\Recopa;
 
+    use \League\Model\Championship\CampeonatoArgentina;
+
+
     Class Season extends Model 
     {
 
@@ -39,6 +42,8 @@
             TorneioSaoPaulo::create();
 
             Recopa::create();
+
+            CampeonatoArgentina::create();
 
         }
 

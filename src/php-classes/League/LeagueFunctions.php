@@ -309,8 +309,8 @@
                     $result = LeagueFunctions::getMatchResultByRating( $teams1[$y]['rating'], $teams2[$y]['rating'] );
 
                     $match = array(
-                        'team1' => $teams1[$y]['team'],
-                        'team2'=> $teams2[$y]['team'],
+                        'team1' => $teams1[$y]['id'],
+                        'team2'=> $teams2[$y]['id'],
                         'goals1' => $result['goals1'],
                         'goals2' => $result['goals2']
                     ); // Partida de Ida
@@ -319,11 +319,13 @@
 
                     if ( $secondRound === true ) {
 
+                        $result = LeagueFunctions::getMatchResultByRating( $teams2[$y]['rating'], $teams1[$y]['rating'] );
+
                         $match2 = array(
-                            'team1' => $teams2[$y]['team'],
-                            'team2'=> $teams1[$y]['team'],
-                            'goals1' => '',
-                            'goals2' => ''
+                            'team1' => $teams2[$y]['id'],
+                            'team2'=> $teams1[$y]['id'],
+                            'goals1' => $result['goals1'],
+                            'goals2' => $result['goals2']
                         ); // Partida de Volta
 
                         array_push( $matchday2, $match2 ); // Põe a partida na rodada
@@ -380,11 +382,69 @@
 
         public static function getMatchResultByRating( $rating1, $rating2 )
         {
-            var_dump($rating1);
-            var_dump($rating2);
-            exit;
 
-            return null;
+            $rating1 = (float) $rating1 * 2;
+            $rating2 = (float) $rating2 * 2;
+
+            $draws = ($rating1 > $rating1) ? $rating1 : $rating1;
+            
+            $scoreboardDraw = array(
+                [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0],
+                [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1],
+                [2, 2], [2, 2], [2, 2], [2, 2],
+                [3, 3], [3, 3], 
+                [4, 4]
+            );
+
+            $scoreboardWin = array(
+                [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0],
+                [2, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0], [2, 0],
+                [2, 1], [2, 1], [2, 1], [2, 1], [2, 1], [2, 1], 
+                [3, 1], [3, 1], [3, 1], [3, 1],
+                [3, 2], [3, 2], [3, 2],
+                [4, 2], [4, 2],
+                [4, 3],
+                [5, 0]
+            );
+
+            $chances = array();
+
+            for ($i=0; $i < $rating1; $i++) { 
+                array_push( $chances, "team1" );
+            }
+
+            for ($i=0; $i < $rating2; $i++) { 
+                array_push( $chances, "team2" );
+            }
+
+            for ($i=0; $i < $draws; $i++) { 
+                array_push( $chances, "draw" );
+            }
+
+            shuffle( $chances );
+
+            $result = array_rand( $chances );
+
+            if ( $chances[$result] === 'draw' ) {
+
+                $goals = $scoreboardDraw[ array_rand( $scoreboardDraw ) ];
+
+            } else {
+                
+                $goals = $scoreboardWin[ array_rand( $scoreboardWin ) ];
+
+            }
+
+            if ( $chances[$result] === 'team2' ) {
+
+                $goals = array_reverse( $goals );
+
+            }
+
+            return array(
+                'goals1' => $goals[0],
+                'goals2' => $goals[1]
+            );
         }
 
     }

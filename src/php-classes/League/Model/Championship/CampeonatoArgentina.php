@@ -27,16 +27,15 @@
 
             $league->getCompetitors();
 
-            //$league->saveCompetitors();
+            $league->saveCompetitors();
 
             $matchdays = LeagueFunctions::createMatchesWithResults( $league->getteams() );
 
-            var_dump($matchdays);
-            exit;
+            $league->setmatchdays( $matchdays );
 
-            // $league->setmatchdays( $matchdays );
+            $league->saveMatchdays();
 
-            // $league->saveMatchdays();
+            $league->scoreboard();
            
         }
 
@@ -47,7 +46,7 @@
 
             $sql = new Sql();
 
-            $teams = $sql->select( "SELECT name AS team, rating FROM tb_teams WHERE country = :COUNTRY", [
+            $teams = $sql->select( "SELECT id, rating FROM tb_teams WHERE country = :COUNTRY", [
                 ":COUNTRY" => 'Argentina',   
             ]);
 
@@ -65,7 +64,7 @@
 
             for ( $i = 0; $i < count( $teams ); $i++ ) {
 
-                $add = " (" . Season::getCurrent() . ", " . CampeonatoArgentina::ID . ", " . 1 . ", " . $teams[$i]['name'] . "),";
+                $add = " (" . Season::getCurrent() . ", " . CampeonatoArgentina::ID . ", " . 1 . ", " . (int) $teams[$i]['id'] . "),";
 
                 $query = $query . $add;
 
@@ -89,7 +88,7 @@
             $competition = CampeonatoArgentina::ID;
             $nrgroup = 1;
 
-            $query = "INSERT INTO tb_groupmatches (season, competition, nrgroup, nrround, team1, team2, matchtime) VALUES  ";
+            $query = "INSERT INTO tb_groupmatches (season, competition, nrgroup, nrround, team1, team2, goals1, goals2, matchtime, isfinished) VALUES  ";
 
             for ($i = 0; $i < count( $matchdays ) ; $i++) { 
 
@@ -111,10 +110,13 @@
 
                     }
 
-                    $team1 = $matchdays[$i][$x][0];
-                    $team2 = $matchdays[$i][$x][1];
+                    $team1 = $matchdays[$i][$x]['team1'];
+                    $team2 = $matchdays[$i][$x]['team2'];
+
+                    $goals1 = $matchdays[$i][$x]['goals1'];
+                    $goals2 = $matchdays[$i][$x]['goals2'];
                     
-                    $add = "(" . $season . ", " . $competition . ", " . $nrgroup . ", " . $round . ", " . $team1 . ", " . $team2 . ", " . "'" . $matchtime . "'" . "),";
+                    $add = "(" . $season . ", " . $competition . ", " . $nrgroup . ", " . $round . ", " . $team1 . ", " . $team2 . ", " . $goals1 . ", " . $goals2 . ", " . "'" . $matchtime . "'," . 1 . "),";
 
                     $query = $query . $add;
 
@@ -130,6 +132,21 @@
 
             $sql->query( $query );
 
+        }
+
+        public function scoreboard() // Salva os resultados das partidas
+        {
+
+            $teams = $this->getteams();
+
+            $sql = new Sql();
+
+            for ( $i = 0; $i < count( $teams ); $i++ ) {
+
+                LeagueFunctions::updateStanding( $teams[$i]['id'], CampeonatoArgentina::ID, 1, 1);
+
+            }
+            
         }
 
         public function listAllMatchdays() // Lista todas as rodadas
@@ -169,7 +186,7 @@
         {
             $sql = new Sql();
 
-            $standings = $sql->select("SELECT TOP(20) b.id, b.name, a.points, a.matches, a.wins, a.draws, a.looses, a.GF, a.GA, a.GD, a.nrpercent 
+            $standings = $sql->select("SELECT TOP(16) b.id, b.name, a.points, a.matches, a.wins, a.draws, a.looses, a.GF, a.GA, a.GD, a.nrpercent 
                 FROM tb_groupstages a
                 INNER JOIN tb_teams b 
                 ON a.team = b.id
@@ -187,7 +204,7 @@
 
                 $standings[$i]['position'] = $this->getPositionColor($i);
 
-                $standings[$i]['lastResults'] = LeagueFunctions::getTeamLastResults( $standings[$i]['id'], 1, 1 );
+                $standings[$i]['lastResults'] = LeagueFunctions::getTeamLastResults( $standings[$i]['id'], CampeonatoArgentina::ID, 1 );
 
             }
 
@@ -199,7 +216,7 @@
         {
 
             $page = new Page([
-                'title' => 'Campeonato Brasileiro Série A'
+                'title' => 'Campeonato Argentino'
             ]);
 
             $page->render('stage', [
@@ -209,33 +226,10 @@
                     'matchdays' => true,
                     'roundtrip' => false,
                     'matchlist' => $this->listAllMatchdays(),
-                    'saveURL' => '/campeonato-brasileiro-serie-a',
+                    'saveURL' => '/campeonato-argentina',
                 ]
             ]);
 
-        }
-
-        public function save() // Salva os resultados das partidas
-        {
-
-            $matches = $this->getmatchresults();
-
-            $sql = new Sql();
-
-            for ( $i = 0; $i < count( $matches ); $i++ ) {
-
-                $sql->query( "UPDATE tb_groupmatches SET goals1 = :GOALS1, goals2 = :GOALS2, isfinished = 1 WHERE id = :IDMATCH", [
-                    ":GOALS1" => (int) $matches[$i]['goals1'],
-                    ":GOALS2" => (int) $matches[$i]['goals2'],
-                    ":IDMATCH" => (int) $matches[$i]['id'],
-                ]);
-
-                LeagueFunctions::updateStanding( $matches[$i]['team1'], CampeonatoArgentina::ID, 1, 1);
-
-                LeagueFunctions::updateStanding( $matches[$i]['team2'], CampeonatoArgentina::ID, 1, 1);
-
-            }
-            
         }
 
         private function getPositionColor( $i )
@@ -243,13 +237,7 @@
 
             if ( $i < 4 ) { return 'green'; }
 
-            else if ( $i === 4 || $i === 5 ) { return 'blue'; }
-
-            else if ( $i > 5 && $i < 13 ) { return 'yellow'; }
-
-            else if ( $i > 12 && $i < 16 ) { return 'gray'; }
-
-            else { return 'red'; }
+            else { return 'gray'; }
 
         }
 
