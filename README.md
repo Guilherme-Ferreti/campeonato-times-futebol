@@ -25,5 +25,7 @@ O projeto ainda não está completo:
  - Existem campeonatos a serem programados.
  - Bugs podem ocorrer.
 
+ ## Notas de Atualização
+
 
 
