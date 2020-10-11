@@ -15,7 +15,10 @@
     use \League\Model\Cup\CopaDoBrasil;
     use \League\Model\Cup\Recopa;
 
-    use \League\Model\Championship\CampeonatoArgentina;
+    use \League\Model\Championship\CampeonatoArgentino;
+    use \League\Model\Championship\CampeonatoMexicano;
+    use \League\Model\Championship\CampeonatoAmericano;
+    use \League\Model\Championship\CampeonatoInternacional;
 
 
     Class Season extends Model 
@@ -43,7 +46,10 @@
 
             Recopa::create();
 
-            CampeonatoArgentina::create();
+            CampeonatoArgentino::create();
+            CampeonatoMexicano::create();
+            CampeonatoAmericano::create();
+            CampeonatoInternacional::create();
 
         }
 

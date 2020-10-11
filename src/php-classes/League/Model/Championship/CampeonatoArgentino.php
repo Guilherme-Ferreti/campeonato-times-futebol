@@ -11,7 +11,7 @@
     use \League\LeagueFunctions;
     use \League\Stage;
 
-    Class CampeonatoArgentina extends Model 
+    Class CampeonatoArgentino extends Model 
     {
 
         const ID = 12; // ID do Campeonato Argentino
@@ -23,7 +23,7 @@
 
         public static function create() 
         {   
-            $league = new CampeonatoArgentina;
+            $league = new CampeonatoArgentino;
 
             $league->getCompetitors();
 
@@ -64,7 +64,7 @@
 
             for ( $i = 0; $i < count( $teams ); $i++ ) {
 
-                $add = " (" . Season::getCurrent() . ", " . CampeonatoArgentina::ID . ", " . 1 . ", " . (int) $teams[$i]['id'] . "),";
+                $add = " (" . Season::getCurrent() . ", " . CampeonatoArgentino::ID . ", " . 1 . ", " . (int) $teams[$i]['id'] . "),";
 
                 $query = $query . $add;
 
@@ -85,7 +85,7 @@
             $matchdays = $this->getmatchdays();
 
             $season = Season::getCurrent();
-            $competition = CampeonatoArgentina::ID;
+            $competition = CampeonatoArgentino::ID;
             $nrgroup = 1;
 
             $query = "INSERT INTO tb_groupmatches (season, competition, nrgroup, nrround, team1, team2, goals1, goals2, matchtime, isfinished) VALUES  ";
@@ -96,17 +96,17 @@
             
                     $round = $i + 1;
 
-                    if ( in_array( $round, CampeonatoArgentina::MIDDLEWEEK_MATCHES ) ) {
+                    if ( in_array( $round, CampeonatoArgentino::MIDDLEWEEK_MATCHES ) ) {
 
-                        $randkey = array_rand( CampeonatoArgentina::MIDDLEWEEK_TIMES );
+                        $randkey = array_rand( CampeonatoArgentino::MIDDLEWEEK_TIMES );
 
-                        $matchtime = CampeonatoArgentina::MIDDLEWEEK_TIMES[$randkey];
+                        $matchtime = CampeonatoArgentino::MIDDLEWEEK_TIMES[$randkey];
 
                     } else {
 
-                        $randkey = array_rand( CampeonatoArgentina::WEEKEND_TIMES );
+                        $randkey = array_rand( CampeonatoArgentino::WEEKEND_TIMES );
 
-                        $matchtime = CampeonatoArgentina::WEEKEND_TIMES[$randkey];
+                        $matchtime = CampeonatoArgentino::WEEKEND_TIMES[$randkey];
 
                     }
 
@@ -143,7 +143,7 @@
 
             for ( $i = 0; $i < count( $teams ); $i++ ) {
 
-                LeagueFunctions::updateStanding( $teams[$i]['id'], CampeonatoArgentina::ID, 1, 1);
+                LeagueFunctions::updateStanding( $teams[$i]['id'], CampeonatoArgentino::ID, 1, 1);
 
             }
             
@@ -160,7 +160,7 @@
             WHERE a.season = :SEASON AND a.competition = :COMPETITION AND a.nrgroup = 1
             ORDER BY a.nrround ASC, a.matchtime DESC;", [
                 ":SEASON" => Season::getCurrent(),
-                ":COMPETITION" => CampeonatoArgentina::ID
+                ":COMPETITION" => CampeonatoArgentino::ID
             ]);
 
             $matchdays = array();
@@ -194,7 +194,7 @@
                 ORDER BY a.points DESC, a.wins DESC, a.GD DESC, a.GF DESC, a.GA DESC
                 ", [
                 ":SEASON" => Season::getCurrent(),
-                ":COMPETITION" => CampeonatoArgentina::ID,
+                ":COMPETITION" => CampeonatoArgentino::ID,
                 ":NRGROUP" => 1
             ]);
 
@@ -204,7 +204,7 @@
 
                 $standings[$i]['position'] = $this->getPositionColor($i);
 
-                $standings[$i]['lastResults'] = LeagueFunctions::getTeamLastResults( $standings[$i]['id'], CampeonatoArgentina::ID, 1 );
+                $standings[$i]['lastResults'] = LeagueFunctions::getTeamLastResults( $standings[$i]['id'], CampeonatoArgentino::ID, 1 );
 
             }
 

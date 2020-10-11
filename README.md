@@ -27,5 +27,11 @@ O projeto ainda não está completo:
 
  ## Notas de Atualização
 
+    11/10/2020:
+    Adicionados novos campeonatos automáticos:
+    • Campeonato Mexicano
+    • Campeonato Americano
+    • Liga Internacional
+
 
 

@@ -10,7 +10,10 @@
     use \League\Model\Championship\TorneioSaoBernardo;
     use \League\Model\Championship\TorneioSaoPaulo;
 
-    use \League\Model\Championship\CampeonatoArgentina;
+    use \League\Model\Championship\CampeonatoArgentino;
+    use \League\Model\Championship\CampeonatoMexicano;
+    use \League\Model\Championship\CampeonatoAmericano;
+    use \League\Model\Championship\CampeonatoInternacional;
 
     /* -------------------------------------- CAMPEONATO BRASILEIRO SÉRIE A -------------------------------------- */
 
@@ -187,9 +190,39 @@
 
      /* -------------------------------------- CAMPEONATO ARGENTINO -------------------------------------- */
 
-     $app->get('/campeonato-argentina', function() {
+     $app->get('/campeonato-argentino', function() {
 
-        $league = new CampeonatoArgentina();
+        $league = new CampeonatoArgentino();
+
+        $league->load();
+
+    });
+
+    /* -------------------------------------- CAMPEONATO MEXICANO -------------------------------------- */
+
+    $app->get('/campeonato-mexicano', function() {
+
+        $league = new CampeonatoMexicano();
+
+        $league->load();
+
+    });
+
+    /* -------------------------------------- CAMPEONATO AMERICANO -------------------------------------- */
+
+    $app->get('/campeonato-americano', function() {
+
+        $league = new CampeonatoAmericano();
+
+        $league->load();
+
+    });
+
+    /* -------------------------------------- CAMPEONATO Internacional -------------------------------------- */
+    
+    $app->get('/campeonato-internacional', function() {
+
+        $league = new CampeonatoInternacional();
 
         $league->load();
 
