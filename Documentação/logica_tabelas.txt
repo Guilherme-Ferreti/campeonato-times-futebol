@@ -1,0 +1,98 @@
+
+{} = Chave Estrangeira
+
+tb_season: (id, status)
+
+	id = Para identificar a linha
+	status = Qual o status da temporada (Ex: Em andamento, encerrada)
+
+
+--------------------------------------------------------------------------------
+tb_teams: (id, name, country, coutryinitials, rating)
+
+	id = Para identificar a linha
+	name = Nome do time
+	coutryinitials = Sigla do País
+	rating = Define a força do time 
+	
+--------------------------------------------------------------------------------
+
+tb_competition (id, name, rules)
+
+
+	id = Para identificar a linha
+	name = Nome da competição (Ex: Campeonato brasileiro, Copa Libertadores, etc.)
+	rules = Regras da competição (Campo de texto - TEXT)
+
+--------------------------------------------------------------------------------
+
+Salva os estágios (Oitavas, quartas, semi, final)
+
+tb_stages: (id, stage)
+
+	id = Para identificar a linha
+	stage = Nome da fase (Ex:  Final Semi-final, Quartas de Final, Oitavas de Final, Fase 3, Fase 2, Fase 1, Pré-Libertadores[Exclusivo] )
+
+--------------------------------------------------------------------------------
+
+tb_groupstage: (id, season, competition, group, round, team, points, matches, wins, draws, looses, gc, gp, sg, percent) (Pontos corridos)
+
+	id = Para identificar a linha
+FK	season = Em qual temporada está 
+FK	competition = Qual é a competição (Ex: Campeonato brasileiro, Fase de Grupos de Libertadores, etc.)
+	group = Em qual grupo está (Ex: 1º da Fase de Grupos da Libertadores, Campeonato Brasileiro é um grupo só)
+	round = Qual rodada da competição  (Ex: Rodada 8, Rodade 21, Rodada 35,  etc)
+FK	team =  Qual é o time
+	points = Quantos pontos possui
+	matches = Quantas partidas jogou
+	wins = Quantidade de vitórias
+	draws = Quantidade de Empates
+	looses = Quantidade de derrotas
+	gc = Gols sofridos
+	gp = Gols marcados
+	sg = Saldo de goals
+	percent = Porcentagem de Aproveitamento
+
+
+--------------------------------------------------------------------------------
+
+
+
+Grava todas as partidas de pontos corridos, quem jogou contra quem
+
+tb_groupmatches: (id, season, competition, round, team1, team2, goals1, goals2, weekday, hour)
+
+	id = Para identificar a linha
+FK	season = Em qual temporada está 
+FK	competition = Qual é a competição (Ex: Brasileirão Série B, Fase de Grupos da Libertadores, etc.)
+	round = Qual rodada competição  (Ex: Rodada 8, Rodade 21, Rodada 35,  etc)
+FK	team1 = Equipe
+FK	team2 = Segunda equipe
+	goals1 = Gols marcados pelo time 1
+	goals2 = Gols marcados pelo time 2
+	weekday = Dia em que a partida aconteceu	
+	hour = Hora em que a partida aconteceu
+
+
+OBS: Os confrontos podem ser gerados e gravados sem possuirem um resultado (goals1 e goals2 podem ser nulos)
+
+
+
+--------------------------------------------------------------------------------
+
+tb_playoffs ( id, season, competition, stage, confronto, match, team1, team2, goals1, goals2, weekday, hour ) (Eliminatórias)
+
+	id = Para identificar a linha
+FK	season = Em qual temporada está 
+FK	competition = Qual é a competição (Ex: Copa do Brasil, Eliminatórias Libertadores, etc.)
+	stage = Qual fase da competição  (Ex: Oitavas de Final, Quartas de Final, Semi-final, etc)
+	confronto = Qual o confronto da chave (Ex: Uma semi-final tem 4 times, 2 confrontos. Oitavas tem 16 times, 8 confrontos, etc.)
+	match = Partida de Ida ou volta (1 - Ida / 2 - Volta - 0 - Partida única)
+FK	team1 = Equipe
+FK	team2 = Segunda equipe
+	goals1 = Gols marcados pelo time 1
+	goals2 = Gols marcados pelo time 2
+	weekday = Dia em que a partida aconteceu	
+	hour = Hora em que a partida aconteceu
+
+OBS: Os confrontos podem ser gerados e gravados sem possuirem um resultado (goals1 e goals2 podem ser nulos)
